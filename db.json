@@ -1,0 +1,51 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Ana",
+      "lastname": "Torres",
+      "email": "ana@taskflow.com",
+      "password": "123456",
+      "role": "USER",
+      "createdAt": "2024-01-15T10:00:00Z"
+    },
+    {
+      "id": "2",
+      "name": "Admin",
+      "lastname": "Principal",
+      "email": "admin@taskflow.com",
+      "password": "admin123",
+      "role": "ADMIN",
+      "createdAt": "2024-01-10T10:00:00Z"
+    },
+    {
+      "name": "Luis",
+      "lastname": "Medrano",
+      "email": "l@gmail.com",
+      "password": "123456",
+      "role": "USER",
+      "createdAt": "2026-06-02T20:35:45.028Z",
+      "id": "NVhULQn5BtQ"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Aprender JSON Server",
+      "description": "Configurar el servidor mock para la SPA",
+      "completed": false,
+      "userId": 1,
+      "createdAt": "2024-03-20T10:00:00Z"
+    },
+    {
+      "id": "2",
+      "title": "Crear dashboard",
+      "description": "Diseñar la vista principal de tareas",
+      "completed": false,
+      "userId": 1,
+      "createdAt": "2024-03-20T11:00:00Z"
+    }
+  ],
+  "sessions": [],
+  "$schema": "./node_modules/json-server/schema.json"
+}

@@ -6,13 +6,18 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "json-server --watch db.json --port 3000",
+    "dev:all": "npm run server & npm run dev"
   },
   "devDependencies": {
+    "json-server-auth": "^2.1.0",
     "vite": "^8.0.12"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.0",
+    "axios": "^1.16.1",
+    "json-server": "^1.0.0-beta.15",
     "tailwindcss": "^4.3.0"
   }
 }
