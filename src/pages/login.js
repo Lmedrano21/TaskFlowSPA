@@ -1,5 +1,5 @@
 import { loadHTML } from '../utils/helpers.js';
-import { api } from '../services/api.js';
+import { store } from '../services/session.js';
 import { navigateTo } from '../main.js';
 
 export async function renderLogin() {
@@ -14,12 +14,13 @@ export async function renderLogin() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
-            try {
-                const { user, session } = await api.login(email, password);
-                alert(`Bienvenido ${user.name}!`);
+            const success = await store.onLogin(email, password);
+            
+            if (success) {
+                alert(`Bienvenido ${store.user.name}!`);
                 navigateTo('/dashboard');
-            } catch (error) {
-                alert('Error en login: ' + error.message);
+            } else {
+                alert('Credenciales inválidas. Inténtalo de nuevo.');
             }
         });
     }
