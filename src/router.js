@@ -1,11 +1,15 @@
 /**
  * Router SPA
  */
+import { loadHTML } from './utils/helpers.js';
 
 import { renderLogin } from './pages/login.js';
 import { renderHome } from './pages/home.js';
 import { renderRegister } from './pages/register.js';
 import { loadNavbarHome } from './components/navbar.js';
+import { renderDashboard } from './pages/dashboard.js';
+import { renderNotFound } from './pages/not-found.js';
+
 
 /**
  * Rutas disponibles
@@ -13,7 +17,9 @@ import { loadNavbarHome } from './components/navbar.js';
 const routes = {
     '/login': renderLogin,
     '/': renderHome,
-    '/register': renderRegister
+    '/register': renderRegister,
+    '/dashboard': renderDashboard,
+    '/not-found': renderNotFound,
 };
 
 /**
@@ -51,10 +57,8 @@ export async function router() {
     if (render) {
         await render();
     } else {
-        document.getElementById('content').innerHTML = `
-            <section>
-                <h2>404 - Página no encontrada</h2>
-            </section>
-        `;
+        document.getElementById('content').innerHTML = 
+        await loadHTML('./src/views/not-found.html');
     }
+
 }

@@ -13,6 +13,7 @@ export async function loadNavbarHome() {
             <a class="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white" href="/" data-link>Home</a>
             <a class="rounded-full px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700" href="/login" data-link>Login</a>
             <a class="rounded-full px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50" href="/register" data-link>Register</a>
+            <a class="rounded-full px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50" href="/dashboard" data-link>Dashboard</a>
             </nav>
         </div>
         `;
