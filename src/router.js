@@ -16,7 +16,7 @@ import { renderNotFound } from './pages/not-found.js';
  */
 const routes = {
     '/login': renderLogin,
-    '/': renderHome,
+    '/': renderHome,  /** ruta principal y por eso solo tiene un solo / */
     '/register': renderRegister,
     '/dashboard': renderDashboard,
     '/not-found': renderNotFound,
