@@ -1,203 +1,88 @@
-# TaskFlowSPA
+# TicketFlowSPA
 
-TaskFlowSPA es una aplicacion web tipo SPA (Single Page Application) construida con JavaScript Vanilla, HTML, CSS y Tailwind CSS. Su objetivo es simular un sistema moderno de gestion de tareas y productividad mientras sirve como base practica para aprender arquitectura frontend sin depender de frameworks como React, Vue o Angular.
+TicketFlowSPA es una aplicación web tipo SPA (Single Page Application) construida con JavaScript Vanilla, HTML, CSS y Tailwind CSS. Es un sistema moderno de gestión de tickets de soporte técnico que sirve como base práctica de arquitectura frontend modular, sin depender de frameworks como React, Vue o Angular.
 
-La aplicacion usara routing del lado del cliente con History API para navegar entre vistas sin recargar toda la pagina, integrando autenticacion, autorizacion por roles, proteccion de rutas, renderizado dinamico y persistencia de datos con un backend fake basado en `json-server`.
+La aplicación utiliza enrutamiento del lado del cliente (History API) para navegar entre vistas sin recargas de página, integrando autenticación, autorización por roles, protección de rutas, renderizado dinámico y persistencia de datos mediante un backend simulado con `json-server`.
 
-Para simplificar la autenticacion en esta primera SPA, la sesion activa del usuario se manejara con `localStorage`, mientras que `json-server` se utilizara para los datos persistentes del sistema.
+La sesión activa del usuario se maneja mediante `localStorage`, y `json-server` proporciona una API REST local para los datos persistentes del sistema.
 
 ## Objetivo del proyecto
 
-Este proyecto esta pensado para practicar fundamentos clave del desarrollo frontend moderno:
+Este proyecto fue diseñado para demostrar fundamentos clave del desarrollo frontend moderno:
 
-- Routing SPA.
-- Arquitectura frontend modular.
-- Separacion de responsabilidades.
-- Manejo de estado basico.
-- Guards y proteccion de rutas.
-- Reutilizacion de componentes.
-- Escalabilidad en Vanilla JS.
+- Enrutamiento SPA sin recargas completas.
+- Arquitectura frontend modular y en capas.
+- Separación de responsabilidades.
+- Manejo de estado de sesión.
+- Guards y protección de rutas.
+- Interfaz dinámica e interactiva manipulando el DOM localmente.
+- Uso de utilidades CSS con Tailwind CSS.
 
-## Tipo de arquitectura
+## Arquitectura
 
-Este proyecto usara una arquitectura frontend simple por capas (`layered architecture`) adaptada a una SPA en JavaScript Vanilla.
+El proyecto está organizado en una arquitectura por capas (`layered architecture`), separando la aplicación por responsabilidades para facilitar su mantenimiento y escalabilidad:
 
-La idea es separar la aplicacion por responsabilidades para que sea mas facil de aprender, mantener y escalar poco a poco:
+- `src/main.js`: Punto de entrada que inicializa el enrutador.
+- `src/router.js`: Gestiona la navegación, rutas públicas/privadas y validación de permisos.
+- `src/views/`: Contiene las plantillas HTML (Login, Dashboard, Tickets, etc.).
+- `src/pages/`: Controladores JavaScript asociados a cada vista (lógica de interfaz).
+- `src/components/`: Piezas de UI compartidas como la barra de navegación.
+- `src/services/`: Capa de comunicación de datos (`api.js` y `session.js`).
+- `src/utils/`: Utilidades generales (`helpers.js`).
 
-- `main.js` como punto de arranque.
-- `router/` para la navegacion SPA.
-- `views/` para las pantallas principales.
-- `components/` para piezas reutilizables.
-- `services/` para datos, sesion y comunicacion con el backend fake.
-- `utils/` para funciones auxiliares.
-- `styles/` para estilos globales y apoyo visual.
+## Stack Tecnológico
 
-Esta decision busca que el equipo entienda primero como funciona una SPA antes de pasar a arquitecturas mas avanzadas o mas modulares por dominio.
+- **Frontend:** JavaScript Vanilla, HTML5, CSS3.
+- **Estilos:** Tailwind CSS v4.
+- **Herramientas:** Vite (Bundler y servidor de desarrollo).
+- **Backend Simulado:** JSON Server.
 
-## Stack principal
+## Características Principales
 
-- JavaScript Vanilla
-- HTML5
-- CSS3
-- Tailwind CSS
-- Vite
-- JSON Server como backend fake
+- **Gestión de Usuarios:** Registro e inicio de sesión.
+- **Roles y Permisos:** Tres niveles de acceso (`ADMIN`, `TECHNICIAN`, `USER`).
+- **Navegación SPA fluida:** Renderizado instantáneo de componentes.
+- **Gestión de Tickets:** Creación, edición, eliminación y cambio de estados (Abierto, En Proceso, Cerrado).
+- **Asignación de Tickets:** Interfaz dinámica para que el administrador asigne técnicos a tickets específicos sin perder el contexto de la página.
+- **Dashboard Estadístico:** Visualización de actividad general o personal según el rol del usuario.
+- **Protección de Rutas:** Redirecciones automáticas si no hay sesión activa o permisos suficientes.
 
-## Funcionalidades previstas
+## Roles del Sistema
 
-- Inicio de sesion y cierre de sesion.
-- Manejo de sesion del usuario.
-- Rutas publicas y privadas.
-- Sistema de roles y permisos.
-- Navegacion SPA con `History API`.
-- Renderizado dinamico de vistas.
-- Componentes reutilizables.
-- CRUD completo de tareas.
-- Edicion de perfil del usuario autenticado.
-- Eliminacion de la propia cuenta por parte del usuario autenticado.
-- Dashboard principal con estadisticas basicas.
-- Panel administrativo para usuarios `ADMIN`.
-- Consumo de datos desde un backend fake con `json-server`.
+### `ADMIN` (Administrador)
+- Tiene acceso total al sistema.
+- Ve y administra absolutamente todos los tickets creados.
+- Asigna técnicos a los tickets en curso.
+- Visualiza métricas y listados globales.
+- Puede gestionar a los técnicos del sistema.
 
-## Roles iniciales
+### `TECHNICIAN` (Técnico)
+- Puede ver y gestionar únicamente los tickets que le han sido asignados por el administrador.
+- Puede actualizar el estado de los tickets que está trabajando.
+- Visualiza estadísticas relacionadas con sus tickets asignados.
+- Gestiona su perfil personal.
 
-### `ADMIN`
+### `USER` (Usuario Regular)
+- Puede crear nuevos tickets de soporte.
+- Ve, edita, cambia de estado y elimina exclusivamente sus propios tickets.
+- Gestiona su perfil personal.
 
-- Puede gestionar usuarios.
-- Puede visualizar todas las tareas.
-- Puede modificar roles y permisos.
-- Tiene acceso completo al sistema.
+## Iniciar el Proyecto
 
-### `USER`
+Para levantar el entorno completo (servidor de desarrollo Vite y el backend API JSON Server) de forma concurrente, sigue estos pasos:
 
-- Puede crear, editar y eliminar sus propias tareas.
-- Puede visualizar solo la informacion relacionada con su cuenta.
-- Puede editar su propio perfil.
-- Puede eliminar su propia cuenta.
+1. Instala las dependencias:
+   ```bash
+   npm install
+   ```
 
-## Alcance funcional esperado
+2. Ejecuta el script principal:
+   ```bash
+   npm run dev:all
+   ```
 
-La SPA deberia incluir, como minimo, los siguientes modulos o vistas:
-
-- `Login`
-- `Dashboard`
-- `Mis tareas`
-- `Mi perfil`
-- `Detalle o formulario de tarea`
-- `Administracion de usuarios` solo para `ADMIN`
-- `Pagina 404`
-
-## Estructura sugerida
-
-La estructura inicial del proyecto sera sencilla y progresiva:
-
-```text
-src/
-  main.js
-  router/
-  views/
-  components/
-  services/
-  utils/
-  styles/
-```
-
-### Principios de arquitectura
-
-- Cada modulo debe encargarse de una responsabilidad clara.
-- Las vistas no deben contener toda la logica de negocio.
-- El acceso al backend debe centralizarse en `services`.
-- La logica de permisos debe aislarse en el sistema de routing o en utilidades de autorizacion.
-- Los componentes compartidos deben ser reutilizables y faciles de identificar.
-- Las vistas deben apoyarse en Tailwind CSS para mantener consistencia visual y velocidad de construccion.
-
-## Flujo general de navegacion
-
-1. El usuario entra a la aplicacion.
-2. Si no tiene sesion activa, ve la vista de `login`.
-3. Tras autenticarse, la sesion se guarda en `localStorage`.
-4. El router redirige segun su estado de sesion y permisos.
-5. Al recargar la app, la sesion se restaura desde `localStorage`.
-6. Las rutas administrativas validan autenticacion y rol `ADMIN`.
-7. Al cerrar sesion, los datos de sesion se eliminan del `localStorage`.
-
-## Reglas de negocio base
-
-- Un `USER` solo puede manipular sus propias tareas.
-- Un `USER` solo puede editar su propio perfil.
-- Un `USER` puede eliminar su propia cuenta.
-- Un `ADMIN` puede ver y administrar todas las tareas y usuarios.
-- Las rutas privadas no deben renderizarse si no existe una sesion valida.
-- El estado de autenticacion debe persistirse de forma controlada en `localStorage`.
-
-## Scripts disponibles
-
-- `npm run dev`: levanta el entorno de desarrollo con Vite.
-- `npm run build`: genera la version de produccion.
-- `npm run preview`: sirve localmente el build generado.
-
-## Inicio rapido
-
-1. Instala dependencias:
-
-```bash
-npm install
-```
-
-2. Inicia la app en desarrollo:
-
-```bash
-npm run dev
-```
-
-3. En paralelo, cuando se agregue el backend fake, inicia `json-server` con el archivo de datos definido para el proyecto.
-
-## Backend fake
-
-La persistencia de datos del sistema estara basada en `json-server`. La idea es simular recursos como:
-
-- `users`
-- `tasks`
-
-Ejemplo de responsabilidades del backend fake:
-
-- Consultar usuarios.
-- Validar credenciales de manera simulada.
-- Consultar y actualizar perfil del usuario autenticado.
-- Eliminar la cuenta del usuario autenticado.
-- Obtener tareas por usuario.
-- Crear, editar y eliminar tareas.
-- Permitir consultas globales para administracion.
-
-## Manejo de sesion
-
-Para mantener el proyecto simple y enfocado en el aprendizaje:
-
-- `json-server` se usara para `users` y `tasks`.
-- `localStorage` se usara para guardar la sesion activa.
-- No se manejara una coleccion `sessions` en el backend fake como parte del flujo principal.
-
-Esto permite practicar autenticacion SPA sin agregar complejidad innecesaria en esta primera etapa.
-
-## Criterios tecnicos del proyecto
-
-- No usar frameworks SPA.
-- Mantener una arquitectura simple por capas desde el inicio.
-- Evitar mezclar DOM, reglas de negocio y acceso a datos en un mismo archivo.
-- Priorizar codigo legible, escalable y facil de mantener.
-
-## Estado actual
-
-La base del proyecto ya esta montada con Vite. La implementacion funcional de la SPA se ira construyendo de forma progresiva, comenzando idealmente por:
-
-1. Configuracion del router.
-2. Layout base.
-3. Modulo de autenticacion.
-4. Guards de rutas.
-5. Modulo de tareas.
-6. Dashboard.
-7. Panel administrativo.
+Este comando arrancará `json-server` en el puerto `3000` observando el archivo `db.json` y, al mismo tiempo, levantará el entorno de frontend con Vite.
 
 ## Licencia
 
-Este proyecto se distribuye bajo la licencia incluida en [`LICENSE`](./LICENSE).
+Este proyecto se distribuye bajo la licencia incluida en el repositorio.
