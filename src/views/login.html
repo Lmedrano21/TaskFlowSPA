@@ -1,3 +1,19 @@
+<!--
+  VISTA LOGIN (Página de Inicio de Sesión)
+  
+  Formulario para que usuarios registrados accedan a la aplicación.
+  
+  Características:
+  - Campos: Email y Contraseña
+  - Validación básica en cliente
+  - Enlace a registro para nuevos usuarios
+  - Lado decorativo con información (en desktop)
+  
+  Diseño:
+  - Grid 2 columnas en desktop: formulario + panel decorativo
+  - 1 columna en mobile
+  - Formulario validado por JavaScript
+-->
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -7,49 +23,76 @@
   </head>
   <body class="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-100 text-slate-800">
     <main class="grid min-h-screen lg:grid-cols-[1fr_0.95fr]">
+      <!-- SECCIÓN IZQUIERDA: Formulario de Login -->
       <section class="flex items-center justify-center px-6 py-10">
         <div class="w-full max-w-xl rounded-[2rem] border border-blue-100 bg-white p-8 shadow-xl shadow-blue-100/70">
+          <!-- Encabezado del formulario -->
           <div class="flex items-center justify-between">
-            <a class="text-xl font-black tracking-tight text-blue-900" href="/" data-link>TaskFlowSPA</a>
+            <!-- Logo -->
+            <a class="text-xl font-black tracking-tight text-blue-900" href="/" data-link>TicketFlowSPA</a>
+            <!-- Enlace a registro -->
             <a class="rounded-full border border-blue-200 px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50" href="/register" data-link>Registrarse</a>
           </div>
 
+          <!-- Título y descripción -->
           <div class="mt-8">
             <p class="text-sm font-semibold uppercase tracking-[0.3em] text-blue-600">Inicio de sesion</p>
             <h1 class="mt-2 text-4xl font-black tracking-tight text-slate-900">Bienvenido de nuevo</h1>
             <p class="mt-4 text-slate-600">Ingresa a tu espacio de trabajo y continua organizando tus tickets.</p>
           </div>
 
+          <!-- FORMULARIO -->
           <form id="login-form" class="mt-8 grid gap-5">
+            <!-- Campo Email -->
             <div>
               <label class="mb-2 block text-sm font-medium text-slate-700" for="email">Correo</label>
-              <input id="email" type="email" placeholder="usuario@taskflow.com" class="w-full rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none" />
+              <input 
+                id="email" 
+                type="email" 
+                placeholder="usuario@ticketflow.com" 
+                class="w-full rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none" 
+                required
+              />
             </div>
+            <!-- Campo Contraseña -->
             <div>
               <label class="mb-2 block text-sm font-medium text-slate-700" for="password">Contrasena</label>
-              <input id="password" type="password" placeholder="Ingresa tu contrasena" class="w-full rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none" />
+              <input 
+                id="password" 
+                type="password" 
+                placeholder="Ingresa tu contrasena" 
+                class="w-full rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none" 
+                required
+              />
             </div>
-          <button type="submit" class="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-bold text-white hover:bg-blue-500">
+            
+            <!-- Botón Submit -->
+            <button 
+              type="submit" 
+              class="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-bold text-white hover:bg-blue-500 transition-colors"
+            >
               Entrar al dashboard
-          </button>
-</form>
+            </button>
           </form>
         </div>
       </section>
 
+      <!-- SECCIÓN DERECHA: Panel Decorativo (visible solo en desktop) -->
       <section class="hidden bg-blue-600 p-10 text-white lg:flex lg:flex-col lg:justify-center">
         <div class="mx-auto max-w-lg">
           <p class="text-sm font-semibold uppercase tracking-[0.3em] text-blue-100">TicketFlowSPA</p>
           <h2 class="mt-4 text-5xl font-black tracking-tight">Una experiencia limpia para aprender una primera SPA.</h2>
+          <!-- Características destacadas -->
           <ul class="mt-8 space-y-4 text-lg leading-8 text-blue-50">
-            <li>Autenticacion simplificada con localStorage.</li>
-            <li>Gestion de tareas con enfoque claro y visual.</li>
-            <li>Roles y permisos entendibles desde el primer recorrido.</li>
+            <li>- Autenticacion simplificada con localStorage.</li>
+            <li>- Gestion de tickets con enfoque claro y visual.</li>
+            <li>- Roles y permisos entendibles desde el primer recorrido.</li>
           </ul>
         </div>
       </section>
     </main>
 
+    <!-- Script principal de la aplicación -->
     <script type="module" src="../main.js"></script>
   </body>
 </html>

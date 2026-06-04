@@ -1,40 +1,62 @@
+<!--
+  VISTA DASHBOARD (Panel Principal Autenticado)
+  
+  Página que muestra el resumen de actividad del usuario.
+  Solo accesible para usuarios autenticados.
+  
+  Secciones:
+  - Encabezado con bienvenida personalizada
+  - Tarjetas de estadísticas (tickets activas, completadas, pendientes)
+  - Accesos rápidos (crear ticket, editar perfil)
+  
+  Nota: Los datos personalizados se cargan dinámicamente desde el store
+-->
 
   <body class="min-h-screen bg-sky-50 text-slate-800" id="dashboard-page">
 
     <main class="mx-auto max-w-6xl px-6 py-10">
+      <!-- ENCABEZADO CON BIENVENIDA -->
       <section class="rounded-[2rem] bg-blue-600 px-8 py-10 text-white shadow-xl shadow-blue-100">
         <p class="text-sm font-semibold uppercase tracking-[0.3em] text-blue-100">Dashboard principal</p>
-        <h1 class="mt-3 text-4xl font-black tracking-tight">Bienvenida, Ana.</h1>
+        <h1 class="mt-3 text-4xl font-black tracking-tight">Cargando...</h1>
         <p class="mt-4 max-w-2xl text-blue-50">Resumen general del trabajo del usuario, accesos rapidos y estado actual de productividad.</p>
       </section>
 
+      <!-- ESTADÍSTICAS EN TARJETAS -->
       <section class="mt-8 grid gap-4 md:grid-cols-3">
+        <!-- Tickets Abiertos -->
         <article class="rounded-3xl border border-blue-100 bg-white p-6 shadow-lg shadow-blue-50">
-          <p class="text-sm text-slate-500">Tareas activas</p>
-          <p class="mt-3 text-4xl font-black text-blue-700">12</p>
+          <p class="text-sm text-slate-500">Tickets abiertos</p>
+          <p class="mt-3 text-4xl font-black text-blue-700">-</p>
         </article>
+        <!-- Completados -->
         <article class="rounded-3xl border border-blue-100 bg-white p-6 shadow-lg shadow-blue-50">
-          <p class="text-sm text-slate-500">Completadas</p>
-          <p class="mt-3 text-4xl font-black text-blue-700">28</p>
+          <p class="text-sm text-slate-500">Completados</p>
+          <p class="mt-3 text-4xl font-black text-blue-700">-</p>
         </article>
+        <!-- Creados Hoy -->
         <article class="rounded-3xl border border-blue-100 bg-white p-6 shadow-lg shadow-blue-50">
-          <p class="text-sm text-slate-500">Pendientes hoy</p>
-          <p class="mt-3 text-4xl font-black text-blue-700">4</p>
+          <p class="text-sm text-slate-500">Creados hoy</p>
+          <p class="mt-3 text-4xl font-black text-blue-700">-</p>
         </article>
       </section>
 
+      <!-- ACCESOS RÁPIDOS -->
       <section class="mt-8">
         <article class="rounded-3xl border border-blue-100 bg-white p-6 shadow-lg shadow-blue-50">
           <div class="flex items-center justify-between">
             <h2 class="text-xl font-bold text-slate-900">Accesos rapidos</h2>
-            <a class="text-sm font-semibold text-blue-700 hover:text-blue-600" href="/src/views/tasks.html">Ver tareas</a>
+            <a class="text-sm font-semibold text-blue-700 hover:text-blue-600" href="/tickets" data-link>Ver tickets</a>
           </div>
+          <!-- Grid de accesos rápidos -->
           <div class="mt-6 grid gap-4 sm:grid-cols-2">
-            <a class="rounded-3xl bg-blue-50 p-5 hover:bg-blue-100" href="/src/views/task-form.html">
+            <!-- Crear Ticket -->
+            <a class="rounded-3xl bg-blue-50 p-5 hover:bg-blue-100 transition-colors cursor-pointer" href="/ticket-form" data-link>
               <p class="text-sm font-semibold text-blue-600">Crear</p>
-              <h3 class="mt-2 text-lg font-bold text-slate-900">Nueva tarea</h3>
+              <h3 class="mt-2 text-lg font-bold text-slate-900">Nuevo Ticket</h3>
             </a>
-            <a class="rounded-3xl bg-blue-50 p-5 hover:bg-blue-100" href="/src/views/profile.html">
+            <!-- Editar Perfil -->
+            <a class="rounded-3xl bg-blue-50 p-5 hover:bg-blue-100 transition-colors cursor-pointer" href="/profile" data-link>
               <p class="text-sm font-semibold text-blue-600">Cuenta</p>
               <h3 class="mt-2 text-lg font-bold text-slate-900">Editar perfil</h3>
             </a>

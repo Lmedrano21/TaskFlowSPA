@@ -1,94 +1,185 @@
 /**
  * Router SPA
+ * 
+ * Este módulo gestiona la navegación del lado del cliente usando History API.
+ * Define todas las rutas disponibles, rutas privadas (que requieren autenticación),
+ * y los guards para proteger el acceso a ciertas páginas.
+ * 
+ * Características principales:
+ * - Navegación SPA sin recargas de página
+ * - Guardias de rutas para autenticación
+ * - Redirección automática de usuarios no autorizados
+ * - Carga de navbar según la ruta actual
  */
+
 import { loadHTML } from './utils/helpers.js';
 
+// Importar páginas/vistas
 import { renderLogin } from './pages/login.js';
 import { renderHome } from './pages/home.js';
 import { renderRegister } from './pages/register.js';
-import { loadNavbarHome } from './components/navbar.js';
 import { renderDashboard } from './pages/dashboard.js';
+import { renderTickets } from './pages/tickets.js';
+import { renderTicketForm } from './pages/ticket-form.js';
+import { renderProfile } from './pages/profile.js';
+import { renderAdmin } from './pages/admin.js';
 import { renderNotFound } from './pages/not-found.js';
-import { store } from './services/session.js'; // Importa el store
+
+// Importar componentes
+import { loadNavbarHome } from './components/navbar.js';
+
+// Importar servicios
+import { store } from './services/session.js';
 
 
 /**
- * Rutas disponibles
+ * Definición de todas las rutas disponibles en la aplicación
+ * 
+ * Mapa de rutas que asocia paths con sus funciones render correspondientes.
+ * Las claves son las rutas (pathname), y los valores son las funciones
+ * que renderizarán el contenido en el elemento #content
  */
 const routes = {
-    '/login': renderLogin,
-    '/': renderHome,  /** ruta principal y por eso solo tiene un solo / */
-    '/register': renderRegister,
-    '/dashboard': renderDashboard,
-    '/not-found': renderNotFound,
+    '/': renderHome,                  // Ruta principal - pública
+    '/login': renderLogin,             // Login - pública (redirige si autenticado)
+    '/register': renderRegister,       // Registro - pública (redirige si autenticado)
+    '/dashboard': renderDashboard,     // Dashboard - privada
+    '/tickets': renderTickets,         // Listado de tickets - privada
+    '/ticket-form': renderTicketForm,  // Formulario de tickets - privada
+    '/profile': renderProfile,         // Perfil del usuario - privada
+    '/admin': renderAdmin,             // Panel administrativo - privada (solo ADMIN)
+    '/not-found': renderNotFound,      // Página 404 - pública
 };
 
 /**
- * Rutas que requieren autenticación.
- * Añade aquí todas las rutas que solo deben ser accesibles para usuarios logueados.
+ * Rutas que requieren autenticación
+ * 
+ * Cualquier ruta en este array solo será accesible para usuarios
+ * autenticados. Si un usuario no autenticado intenta acceder,
+ * será redirigido a /home
  */
-const privateRoutes = ['/dashboard'];
+const privateRoutes = [
+    '/dashboard',
+    '/tickets',
+    '/ticket-form',
+    '/profile'
+];
 
 /**
- * Carga el navbar según la ruta
+ * Rutas que requieren rol específico (ADMIN)
+ * 
+ * Estas rutas solo son accesibles para usuarios con rol ADMIN.
+ * La verificación de rol se realiza en la función render correspondiente.
+ */
+const adminRoutes = ['/admin'];
+
+/**
+ * Carga el navbar según la ruta actual
+ * 
+ * Esta función determina qué navbar mostrar basándose en:
+ * - La ruta actual
+ * - El estado de autenticación del usuario
+ * - El rol del usuario
+ * 
+ * @param {string} path - La ruta actual (pathname)
  */
 async function loadNavbarByPath(path) {
-    // Solo cargar navbarHome en la ruta raíz
-    if (path === '/') {
-        await loadNavbarHome();
-    } else if (store.isLoged) {
-        // Si el usuario está autenticado, podrías cargar un navbar diferente o el mismo
-        // con opciones para usuarios logueados. Por ahora, cargamos el mismo.
+    const navbarContainer = document.getElementById('navbar');
+    if (!navbarContainer) return;
+
+    // Mostrar navbar siempre en la mayoría de rutas
+    // (la navbar se adapta dinámicamente según el estado de autenticación)
+    if (path === '/' || privateRoutes.includes(path) || adminRoutes.includes(path)) {
         await loadNavbarHome();
     } else {
-        // Para otras rutas (como /login), limpiar o mostrar navbar alternativo
-        const navbarContainer = document.getElementById('navbar-container');
-        if (navbarContainer) {
-            // Opción 1: Limpiar el navbar
-            navbarContainer.innerHTML = '';
-
-            // Opción 2: Mostrar un navbar diferente
-            // navbarContainer.innerHTML = '<nav>Navbar Login</nav>';
-        }
+        // Limpiar navbar en rutas de autenticación
+        navbarContainer.innerHTML = '';
     }
 }
 
 /**
- * Router principal
+ * Función principal del Router SPA
+ * 
+ * Orquesta la navegación de la aplicación:
+ * 1. Carga datos de sesión desde localStorage
+ * 2. Obtiene la ruta actual
+ * 3. Valida permisos (autenticación y rol)
+ * 4. Redirige si es necesario
+ * 5. Carga el navbar apropiado
+ * 6. Renderiza la página correspondiente
+ * 
+ * Guards implementados:
+ * - Si estás autenticado y accedes a /login o /register → redirige a /dashboard
+ * - Si accedes a ruta privada sin autenticación → redirige a /home
+ * - Si accedes a /admin sin ser ADMIN → redirige a /dashboard
  */
 export async function router() {
-    // Obtiene ruta real
-    store.loadData(); // <--- CRITICO: Carga los datos del localStorage al store antes de validar
+    // CRITICO: Cargar datos del localStorage al store antes de validar permisos
+    store.loadData();
 
+    // Obtener la ruta actual
     const path = window.location.pathname;
 
-    // --- Implementación de Guards de Ruta ---
+    // Obtener estado de autenticación
     const authenticated = store.isLoged;
+    const userRole = store.user?.role;
 
-    // Si el usuario está autenticado y trata de acceder a /login o /register, redirige a /dashboard
+    // ═════════════════════════════════════════════════════════════════
+    // SECCIÓN: GUARDS DE RUTA - Validación de permisos
+    // ═════════════════════════════════════════════════════════════════
+
+    /**
+     * Guard 1: Si está autenticado y trata de acceder a /login o /register
+     * → Redirige automáticamente a /dashboard
+     * 
+     * Razón: Evitar que usuarios logueados vean las pantallas de autenticación
+     */
     if ((path === '/login' || path === '/register') && authenticated) {
         window.history.pushState({}, '', '/dashboard');
         await router(); // Vuelve a ejecutar el router con la nueva ruta
         return;
     }
 
-    // Si la ruta es privada y el usuario NO está autenticado, redirige a /login
+    /**
+     * Guard 2: Si la ruta es privada y NO está autenticado
+     * → Redirige a /home (no a /login para permitir exploración)
+     * 
+     * Razón: Proteger rutas que requieren autenticación
+     */
     if (privateRoutes.includes(path) && !authenticated) {
         window.history.pushState({}, '', '/home');
         await router(); // Vuelve a ejecutar el router con la nueva ruta
         return;
     }
-    // --- Fin de Guards de Ruta ---
 
-    // Cargar navbar según la ruta
+    /**
+     * Guard 3: Si trata de acceder a /admin sin ser ADMIN
+     * → Redirige a /dashboard
+     * 
+     * Razón: Proteger rutas administrativas
+     */
+    if (adminRoutes.includes(path) && userRole !== 'ADMIN') {
+        window.history.pushState({}, '', '/dashboard');
+        await router(); // Vuelve a ejecutar el router con la nueva ruta
+        return;
+    }
+
+    // ═════════════════════════════════════════════════════════════════
+    // Cargar navbar apropiado según la ruta
     await loadNavbarByPath(path);
 
-    // Busca render
+    // ═════════════════════════════════════════════════════════════════
+    // SECCIÓN: RENDERIZADO
+    // ═════════════════════════════════════════════════════════════════
+
+    // Buscar la función render para la ruta actual
     const render = routes[path];
+
     if (render) {
+        // Ruta encontrada → ejecutar su función render
         await render();
     } else {
-        // Si la ruta no se encuentra, renderiza la página 404
+        // Ruta no encontrada → mostrar página 404
         await routes['/not-found']();
     }
 }

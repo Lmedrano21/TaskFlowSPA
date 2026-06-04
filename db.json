@@ -19,6 +19,15 @@
       "createdAt": "2024-01-10T10:00:00Z"
     },
     {
+      "id": "3",
+      "name": "Carlos",
+      "lastname": "Técnico",
+      "email": "carlos@taskflow.com",
+      "password": "tech123",
+      "role": "TECHNICIAN",
+      "createdAt": "2024-01-12T10:00:00Z"
+    },
+    {
       "name": "Luis",
       "lastname": "Medrano",
       "email": "l@gmail.com",
@@ -26,24 +35,46 @@
       "role": "USER",
       "createdAt": "2026-06-02T20:35:45.028Z",
       "id": "NVhULQn5BtQ"
+    },
+    {
+      "name": "Omar",
+      "lastname": "Torres",
+      "email": "omar@gma.com",
+      "password": "123456",
+      "role": "USER",
+      "createdAt": "2026-06-04T14:15:31.381Z",
+      "id": "GG7UL67bS_w"
     }
   ],
-  "tasks": [
+  "tickets": [
     {
       "id": "1",
-      "title": "Aprender JSON Server",
-      "description": "Configurar el servidor mock para la SPA",
-      "completed": false,
-      "userId": 1,
+      "title": "Error en login",
+      "description": "El sistema no valida correctamente las credenciales",
+      "status": "closed",
+      "priority": "high",
+      "userId": "1",
+      "technicianId": "3",
       "createdAt": "2024-03-20T10:00:00Z"
     },
     {
-      "id": "2",
-      "title": "Crear dashboard",
-      "description": "Diseñar la vista principal de tareas",
-      "completed": false,
-      "userId": 1,
-      "createdAt": "2024-03-20T11:00:00Z"
+      "title": "Error al guardar el ticket: No autenticado",
+      "description": "no sae",
+      "priority": "medium",
+      "userId": "GG7UL67bS_w",
+      "status": "open",
+      "createdAt": "2026-06-04T14:19:45.418Z",
+      "id": "kJ64xtfjx_o",
+      "technicianId": "3"
+    },
+    {
+      "title": "Bug",
+      "description": "dd",
+      "priority": "medium",
+      "userId": "2",
+      "status": "open",
+      "createdAt": "2026-06-04T14:32:10.832Z",
+      "id": "EmqnuXYjiJE"
     }
   ],
   "sessions": [],

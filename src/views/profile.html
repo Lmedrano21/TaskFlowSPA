@@ -1,53 +1,151 @@
+<!-- 
+    Vista de Perfil del Usuario
+    
+    Página que permite al usuario autenticado visualizar y editar
+    su información personal, cambiar contraseña y eliminar su cuenta.
+    
+    Características:
+    - Visualización de datos personales
+    - Edición de nombre y apellido
+    - Visualización de rol (no editable desde acá)
+    - Opción para cambiar contraseña
+    - Botón para eliminar cuenta con confirmación
+-->
 <!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mi perfil | TaskFlowSPA</title>
+    <title>Mi Perfil | TicketFlowSPA</title>
   </head>
   <body class="min-h-screen bg-sky-50 text-slate-800">
-    <header class="border-b border-blue-100 bg-white/90 backdrop-blur">
-      <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <a class="text-xl font-black text-blue-900" href="/src/views/home.html">TaskFlowSPA</a>
-        <nav class="hidden gap-3 md:flex">
-          <a class="rounded-full px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700" href="/src/views/dashboard.html">Dashboard</a>
-          <a class="rounded-full px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700" href="/src/views/tasks.html">Tareas</a>
-          <a class="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white" href="/src/views/profile.html">Perfil</a>
-        </nav>
-      </div>
-    </header>
+    <!-- Contenedor principal -->
+    <main class="mx-auto max-w-4xl px-6 py-10">
+      <!-- Encabezado -->
+      <section class="rounded-[2rem] bg-blue-600 px-8 py-10 text-white">
+        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-blue-100">Configuración de cuenta</p>
+        <h1 class="mt-3 text-4xl font-black tracking-tight">Mi Perfil</h1>
+        <p class="mt-4 max-w-2xl text-blue-50">Actualiza tu información personal y configuración de cuenta.</p>
+      </section>
 
-    <main class="mx-auto max-w-5xl px-6 py-10">
-      <section class="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-        <aside class="rounded-[2rem] bg-blue-600 p-8 text-white shadow-xl shadow-blue-100">
-          <p class="text-sm font-semibold uppercase tracking-[0.3em] text-blue-100">Cuenta</p>
-          <h1 class="mt-3 text-4xl font-black tracking-tight">Mi perfil</h1>
-          <p class="mt-4 text-blue-50">El usuario puede actualizar sus datos personales y gestionar su propia cuenta dentro del sistema.</p>
-        </aside>
+      <!-- Grid de dos columnas -->
+      <div class="mt-8 grid gap-8 lg:grid-cols-3">
+        <!-- Columna izquierda: Información personal -->
+        <section class="lg:col-span-2 rounded-[2rem] border border-blue-100 bg-white p-8 shadow-xl shadow-blue-100/70">
+          <h2 class="text-2xl font-bold text-slate-900">Información Personal</h2>
 
-        <section class="rounded-[2rem] border border-blue-100 bg-white p-8 shadow-xl shadow-blue-50">
-          <form class="grid gap-5">
+          <!-- Sección de campos editables -->
+          <form class="mt-6 grid gap-5">
+            <!-- Nombre -->
             <div>
-              <label class="mb-2 block text-sm font-medium text-slate-700" for="name">Nombre</label>
-              <input id="name" type="text" value="Ana Torres" class="w-full rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-slate-900 focus:border-blue-400 focus:outline-none" />
+              <label class="mb-2 block text-sm font-medium text-slate-700" for="profile-name">
+                Nombre
+              </label>
+              <input
+                id="profile-name"
+                type="text"
+                placeholder="Tu nombre"
+                class="w-full rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none"
+              />
             </div>
+
+            <!-- Apellido -->
             <div>
-              <label class="mb-2 block text-sm font-medium text-slate-700" for="profile-email">Correo</label>
-              <input id="profile-email" type="email" value="ana@taskflow.com" class="w-full rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-slate-900 focus:border-blue-400 focus:outline-none" />
+              <label class="mb-2 block text-sm font-medium text-slate-700" for="profile-lastname">
+                Apellido
+              </label>
+              <input
+                id="profile-lastname"
+                type="text"
+                placeholder="Tu apellido"
+                class="w-full rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none"
+              />
             </div>
+
+            <!-- Email (solo lectura) -->
             <div>
-              <label class="mb-2 block text-sm font-medium text-slate-700" for="password-new">Nueva contrasena</label>
-              <input id="password-new" type="password" placeholder="Actualiza tu contrasena" class="w-full rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none" />
+              <label class="mb-2 block text-sm font-medium text-slate-700" for="profile-email">
+                Correo Electrónico
+              </label>
+              <input
+                id="profile-email"
+                type="email"
+                placeholder="tu@email.com"
+                class="w-full rounded-2xl border border-blue-100 bg-slate-100 px-4 py-3 text-slate-600 placeholder:text-slate-400 cursor-not-allowed"
+                disabled
+              />
+              <p class="mt-2 text-xs text-slate-500">El correo no puede ser modificado</p>
             </div>
-            <div class="flex flex-col gap-3 pt-2 sm:flex-row">
-              <a class="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-bold text-white hover:bg-blue-500" href="/src/views/profile.html">Guardar cambios</a>
-              <a class="inline-flex items-center justify-center rounded-2xl border border-blue-200 bg-white px-5 py-3 text-sm font-bold text-blue-700 hover:bg-blue-50" href="/src/views/login.html">Eliminar mi cuenta</a>
+
+            <!-- Rol (solo lectura) -->
+            <div>
+              <label class="mb-2 block text-sm font-medium text-slate-700">
+                Rol
+              </label>
+              <div id="profile-role" class="inline-flex rounded-full bg-blue-100 px-4 py-2 text-sm font-bold text-blue-700">
+                USER
+              </div>
+              <p class="mt-2 text-xs text-slate-500">Tu rol en la plataforma. Contacta al admin para cambios.</p>
+            </div>
+
+            <!-- Botón guardar -->
+            <div class="mt-6 flex gap-3">
+              <button
+                id="save-profile-btn"
+                type="button"
+                class="flex-1 rounded-2xl bg-blue-600 px-6 py-3 text-sm font-bold text-white hover:bg-blue-500 transition-colors"
+              >
+                Guardar Cambios
+              </button>
             </div>
           </form>
         </section>
-      </section>
+
+        <!-- Columna derecha: Acciones y seguridad -->
+        <aside class="flex flex-col gap-6">
+          <!-- Tarjeta de seguridad -->
+          <section class="rounded-[2rem] border border-blue-100 bg-white p-6 shadow-xl shadow-blue-100/70">
+            <h3 class="text-lg font-bold text-slate-900">Seguridad</h3>
+            <p class="mt-3 text-sm text-slate-600">
+              Protege tu cuenta manteniendo tu contraseña segura y única.
+            </p>
+            <button
+              type="button"
+              class="mt-4 w-full rounded-2xl border border-blue-200 px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50 transition-colors"
+            >
+              Cambiar Contraseña
+            </button>
+          </section>
+
+          <!-- Tarjeta de peligro -->
+          <section class="rounded-[2rem] border border-red-200 bg-red-50 p-6">
+            <h3 class="text-lg font-bold text-red-900">Zona de Riesgo</h3>
+            <p class="mt-3 text-sm text-red-700">
+              Estas acciones son irreversibles. Procede con cuidado.
+            </p>
+            <button
+              id="delete-account-btn"
+              type="button"
+              class="mt-4 w-full rounded-2xl bg-red-600 px-4 py-2 text-sm font-bold text-white hover:bg-red-700 transition-colors"
+            >
+              Eliminar Cuenta
+            </button>
+          </section>
+
+          <!-- Tarjeta de información -->
+          <section class="rounded-[2rem] border border-blue-100 bg-blue-50 p-6">
+            <h3 class="text-sm font-bold text-slate-900">ℹ️ Información</h3>
+            <ul class="mt-3 space-y-2 text-xs text-slate-600">
+              <li>• Creada: <span id="created-date">No disponible</span></li>
+              <li>• ID: <span id="user-id" class="font-mono text-slate-500">---</span></li>
+              <li>• Tickets activas: <span id="active-tasks">0</span></li>
+            </ul>
+          </section>
+        </aside>
+      </div>
     </main>
 
+    <!-- Script del módulo -->
     <script type="module" src="../main.js"></script>
   </body>
 </html>
